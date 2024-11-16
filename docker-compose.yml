@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  db_postgres:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_DB: "fretemais"
+    tty: true
+    volumes:
+      - ./api/db_data:/var/lib/postgresql/db_postgres
+    ports:
+      - "5432:5432"
