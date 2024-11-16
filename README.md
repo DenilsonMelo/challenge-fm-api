@@ -7,6 +7,7 @@
 - Flyway
 - Postgresql
 - Docker
+- Swagger
 
 Clone o projeto e acesse a pasta
 
@@ -24,3 +25,5 @@ Execute o projeto
 ```
 
 Caso dê tudo certo, você está pronto para acessar o frontend em [https://github.com/DenilsonMelo/challenge-fm-front](https://github.com/DenilsonMelo/challenge-fm-front)
+
+🔴 A documentação de todos os endpoints estará disponível em: [http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)

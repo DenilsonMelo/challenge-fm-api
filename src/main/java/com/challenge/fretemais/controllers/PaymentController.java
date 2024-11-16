@@ -5,6 +5,7 @@ import com.challenge.fretemais.entities.payment.Payment;
 import com.challenge.fretemais.entities.payment.PaymentRepository;
 import com.challenge.fretemais.entities.payment.PaymentRequestDTO;
 import com.challenge.fretemais.entities.payment.PaymentResponseDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("payment")
+@Tag(name = "Payment", description = "Gerenciamento de Pagamentos")
 public class PaymentController {
 
     @Autowired
@@ -35,7 +37,7 @@ public class PaymentController {
 
     @CrossOrigin
     @GetMapping("/{id}")
-    public Payment findPackageFreightById(@PathVariable Long id) {
+    public Payment findPaymentById(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Payment not found with id " + id));
     }

@@ -4,6 +4,7 @@ import com.challenge.fretemais.entities.packages.PackageFreight;
 import com.challenge.fretemais.entities.packages.PackageRepository;
 import com.challenge.fretemais.entities.packages.PackageRequestDTO;
 import com.challenge.fretemais.entities.packages.PackageResponseDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("package")
+@Tag(name = "Package", description = "Gerenciamento de Cargas")
 public class PackageController {
     @Autowired
     private PackageRepository repository;

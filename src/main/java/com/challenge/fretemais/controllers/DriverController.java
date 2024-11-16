@@ -4,6 +4,7 @@ import com.challenge.fretemais.entities.driver.Driver;
 import com.challenge.fretemais.entities.driver.DriverRepository;
 import com.challenge.fretemais.entities.driver.DriverResponseDTO;
 import com.challenge.fretemais.entities.driver.DriverRequestDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("driver")
+@Tag(name = "Driver", description = "Gerenciamento de Motoristas")
 public class DriverController {
     @Autowired
     private DriverRepository repository;
