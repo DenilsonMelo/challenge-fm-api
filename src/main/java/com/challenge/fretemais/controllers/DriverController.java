@@ -6,9 +6,11 @@ import com.challenge.fretemais.entities.driver.DriverResponseDTO;
 import com.challenge.fretemais.entities.driver.DriverRequestDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("driver")
@@ -37,5 +39,34 @@ public class DriverController {
     public Driver findDriverById(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Driver not found with id " + id));
+    }
+
+    @CrossOrigin
+    @PutMapping("/{id}")
+    public ResponseEntity<DriverResponseDTO> update(@PathVariable Long id, @RequestBody DriverRequestDTO data) {
+        Optional<Driver> optionalDriver = repository.findById(id);
+
+        if (optionalDriver.isPresent()) {
+            Driver driver = optionalDriver.get();
+
+            driver.setName(data.name());
+
+            repository.save(driver);
+
+            return ResponseEntity.ok(new DriverResponseDTO(driver));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

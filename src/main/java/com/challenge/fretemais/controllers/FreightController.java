@@ -12,11 +12,15 @@ import com.challenge.fretemais.entities.packages.PackageFreight;
 import com.challenge.fretemais.entities.packages.PackageRepository;
 import com.challenge.fretemais.entities.payment.Payment;
 import com.challenge.fretemais.entities.payment.PaymentRepository;
+import com.challenge.fretemais.entities.payment.PaymentRequestDTO;
+import com.challenge.fretemais.entities.payment.PaymentResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("freight")
@@ -57,5 +61,35 @@ public class FreightController {
         List<FreightResponseDTO> freightList = repository.findAll().stream().map(FreightResponseDTO::new).toList();
 
         return freightList;
+    }
+
+    @CrossOrigin
+    @PutMapping("/{id}")
+    public ResponseEntity<FreightResponseDTO> update(@PathVariable Long id, @RequestBody FreightRequestDTO data) {
+        Optional<Freight> optionalFreight = repository.findById(id);
+
+        if (optionalFreight.isPresent()) {
+            Freight freight = optionalFreight.get();
+
+            freight.setDateFreight(data.dateFreight());
+            freight.setStatus(data.status());
+
+            repository.save(freight);
+
+            return ResponseEntity.ok(new FreightResponseDTO(freight));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

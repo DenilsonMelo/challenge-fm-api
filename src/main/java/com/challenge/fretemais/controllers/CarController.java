@@ -6,9 +6,11 @@ import com.challenge.fretemais.entities.car.CarRequestDTO;
 import com.challenge.fretemais.entities.car.CarResponseDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("car")
@@ -38,5 +40,35 @@ public class CarController {
     public Car findCarById(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Car not found with id " + id));
+    }
+
+    @CrossOrigin
+    @PutMapping("/{id}")
+    public ResponseEntity<CarResponseDTO> update(@PathVariable Long id, @RequestBody CarRequestDTO data) {
+        Optional<Car> optionalCar = repository.findById(id);
+
+        if (optionalCar.isPresent()) {
+            Car car = optionalCar.get();
+
+            car.setType(data.type());
+            car.setModel(data.model());
+
+            repository.save(car);
+
+            return ResponseEntity.ok(new CarResponseDTO(car));
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }
